@@ -8,3 +8,6 @@ The following modules are required to be able to run this code:
 2. mediapipe
 3. vgamepad
 
+# Devlog
+You can watch my devlogs here:
+https://youtube.com/channel/UCX6mis1jc5RIFo-A2PpwKQg
