@@ -1,12 +1,13 @@
 import cv2
 import time
 import configparser
-from importlib import reload
 import vgamepad as vg
-import TrackToInput
+import HandController
+import controller
+from importlib import reload
 
 
-def loadCamera(Device_Index,fastOpen,WIDTH,HEIGHT):
+def loadCamera():
 	if fastOpen:
 		cap = cv2.VideoCapture(Device_Index,cv2.CAP_DSHOW) # Open camera with fastOpen=True
 	else:
@@ -19,22 +20,23 @@ def loadCamera(Device_Index,fastOpen,WIDTH,HEIGHT):
 
 
 def main():
-	cap = loadCamera(Device_Index,fastOpen,WIDTH,HEIGHT)
-	#counter = 0
+	mycontroller = controller.VDS4Gamepad()
+	gamepad = mycontroller.Initialise(vg)
+
+	cap = loadCamera()
+	counter = 0
 	while (cap.isOpened()):
-		# Uncomment for easier debugging/developing - credit to jurstu98 for this idea :)
+		# Uncomment the try and except block for easier debugging/developing
+		# Credit to jurstu98 for this brilliant idea :)
 		#try:
-			#cTime = time.time()
-			#if counter == 10:
-				#reload(TrackToInput)
-				#counter=0
-			TrackToInput.track(cap,gamepad)
-			#counter+=1
-			#pTime = time.time() - cTime
-			#fpsArray.append(int(1/pTime))
-			#print(np.mean(fpsArray))
+			if counter == 30:
+				reload(HandController)
+				reload(controller)
+			gestures = HandController.TrackHands(cap)
+			if gestures != None:
+				controller.sendInputs(gamepad,gestures)
 		#except Exception as e:
-			#print("Error: ",e)
+			#print("Error",e)
 
 
 
@@ -45,24 +47,5 @@ if __name__ == '__main__':
 	HEIGHT = int(config['WebcamSettings']['resolution_y'])
 	fastOpen = config.getboolean('WebcamSettings','fastOpen')
 	Device_Index = int(config['WebcamSettings']['device_index'])
-
-	# Initialise Gamepad and press buttons for wakeup
-
-	gamepad = vg.VDS4Gamepad()
-
-
-	gamepad.press_button(button=vg.DS4_BUTTONS.DS4_BUTTON_TRIGGER_RIGHT)
-	gamepad.update()
-	time.sleep(1.0)
-	gamepad.release_button(button=vg.DS4_BUTTONS.DS4_BUTTON_TRIGGER_RIGHT)
-	gamepad.update()
-	time.sleep(1.0)
-
-	gamepad.press_button(button=vg.DS4_BUTTONS.DS4_BUTTON_TRIGGER_RIGHT)
-	gamepad.update()
-	time.sleep(1.0)
-	gamepad.release_button(button=vg.DS4_BUTTONS.DS4_BUTTON_TRIGGER_RIGHT)
-	gamepad.update()
-	time.sleep(1.0)
 
 	main()
