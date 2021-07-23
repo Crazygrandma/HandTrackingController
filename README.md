@@ -9,6 +9,7 @@ The following modules are required to be able to run this code:
 2. mediapipe
 3. vgamepad
 
+You can download them using these commands:
 
 <code>pip install opencv-python</code>
 
