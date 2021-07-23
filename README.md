@@ -9,6 +9,13 @@ The following modules are required to be able to run this code:
 2. mediapipe
 3. vgamepad
 
+
+<code>pip install opencv-python</code>
+
+<code>pip install mediapipe</code>
+
+<code>pip install vgamepad</code>
+
 # Devlog
 You can watch my devlogs here:
 https://youtube.com/channel/UCX6mis1jc5RIFo-A2PpwKQg
