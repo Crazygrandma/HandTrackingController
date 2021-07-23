@@ -7,6 +7,7 @@ config.read('config.ini')
 class Values:
 
 	WIDTH = int(config['WebcamSettings']['resolution_x'])
+	minDistance = config.getint('ControlSettings','minDistance')
 	sensitivity = float(config['ControlSettings']['sensitivity'])
 	rightHandControls = config['Controls-R']
 	user_forwards_controls = rightHandControls['forward_controls']
@@ -40,9 +41,10 @@ def sendInputs(gamepad,gestures):
 	rightHand = gestures['rightHand']
 	leftHand = gestures['leftHand']
 
+	#sensFactor = (Values.sensitivity*3.5)/Values.WIDTH
+
 	# TURNING
-	rawturningValue = int(leftHand['turningValue'])
-	turningValue = (rawturningValue/Values.WIDTH)*Values.sensitivity*3.5
+	turningValue = leftHand['turningValue']
 
 	if turningValue >= 1:
 		gamepad.left_joystick_float(x_value_float=1, y_value_float=0)
@@ -54,15 +56,15 @@ def sendInputs(gamepad,gestures):
 		gamepad.left_joystick_float(x_value_float=turningValue, y_value_float=0)
 		gamepad.update()
 
-
-	rawairrollValue = int(rightHand['airrollValue'])
-	airrollValue = (rawairrollValue/Values.WIDTH)*Values.sensitivity*3.5
+	airrollValue = rightHand['airrollValue']
 
 	# AIRROLL
-	if airrollValue <= 1:
+	if airrollValue >= 0.5:
+		gamepad.release_button(button=vg.DS4_BUTTONS.DS4_BUTTON_TRIGGER_LEFT)
 		gamepad.press_button(button=vg.DS4_BUTTONS.DS4_BUTTON_TRIGGER_RIGHT)
 		gamepad.update()
-	elif airrollValue >= -1:
+	elif airrollValue <= -0.5:
+		gamepad.release_button(button=vg.DS4_BUTTONS.DS4_BUTTON_TRIGGER_RIGHT)
 		gamepad.press_button(button=vg.DS4_BUTTONS.DS4_BUTTON_TRIGGER_LEFT)
 		gamepad.update()
 	else:
@@ -87,7 +89,7 @@ def sendInputs(gamepad,gestures):
 		gamepad.update()
 
 	# JUMP
-	if int(rightHand[Values.user_jump_controls]) <= 50:
+	if int(rightHand[Values.user_jump_controls]) <= Values.minDistance:
 		gamepad.press_button(button=vg.DS4_BUTTONS.DS4_BUTTON_CROSS)
 		gamepad.update()
 	else:
@@ -95,7 +97,7 @@ def sendInputs(gamepad,gestures):
 		gamepad.update()
 
 	# BOOST
-	if int(rightHand[Values.user_boost_controls]) <= 50:
+	if int(rightHand[Values.user_boost_controls]) <= Values.minDistance:
 		gamepad.press_button(button=vg.DS4_BUTTONS.DS4_BUTTON_CIRCLE)
 		gamepad.update()
 	else:
@@ -103,7 +105,7 @@ def sendInputs(gamepad,gestures):
 		gamepad.update()
 
 	# CAMERA
-	if int(rightHand[Values.user_camera_controls]) <= 50:
+	if int(rightHand[Values.user_camera_controls]) <= Values.minDistance:
 		gamepad.press_button(button=vg.DS4_BUTTONS.DS4_BUTTON_TRIANGLE)
 		gamepad.update()
 	else:
@@ -111,7 +113,7 @@ def sendInputs(gamepad,gestures):
 		gamepad.update()
 
 	# DRIFT
-	if int(leftHand[Values.user_drift_controls]) <= 50:
+	if int(leftHand[Values.user_drift_controls]) <= Values.minDistance:
 		gamepad.press_button(button=vg.DS4_BUTTONS.DS4_BUTTON_SHOULDER_LEFT)
 		gamepad.update()
 	else:

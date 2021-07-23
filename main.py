@@ -35,6 +35,9 @@ def main():
 			gestures = HandController.TrackHands(cap)
 			if gestures != None:
 				controller.sendInputs(gamepad,gestures)
+			else:
+				gamepad.reset()
+				gamepad.update()
 		#except Exception as e:
 			#print("Error",e)
 

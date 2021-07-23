@@ -53,8 +53,8 @@ def getGestures(rightHand,leftHand,draw=True):
 		p1 = UISettings.p1
 		p2 = UISettings.p2
 
-		airrollValue = int(wrist1[1]-p1[0])
-		turningValue = int(wrist2[1]-p2[0])
+		airrollValue = (wrist1[1]-p1[0])/UISettings.JoystickRadius
+		turningValue = (wrist2[1]-p2[0])/UISettings.JoystickRadius
 
 		t1_i1_dist = math.sqrt(int(thumb1[1]-index1[1])**2+int(thumb1[2]-index1[2])**2)
 		t2_i2_dist = math.sqrt(int(thumb2[1]-index2[1])**2+int(thumb2[2]-index2[2])**2)
@@ -98,6 +98,8 @@ def DrawOnScreen(img,rightHand,leftHand):
 	JoystickBorderThickness = UISettings.JoystickBorderThickness
 	JoystickLineThickness = UISettings.JoystickLineThickness
 
+	innerRadius = int(UISettings.JoystickRadius/2)
+
 	if not rightHand==None:
 		rightHand = (rightHand[1],rightHand[2])
 
@@ -109,6 +111,7 @@ def DrawOnScreen(img,rightHand,leftHand):
 			cv2.line(img,p2,leftHand,(255,255,255),JoystickLineThickness)
 			# draw right joystick
 			cv2.circle(img,p1,UISettings.JoystickRadius,(155,155,155),JoystickBorderThickness)
+			cv2.circle(img,p1,innerRadius,(0,255,255),2)
 			cv2.line(img,p1,rightHand,(255,255,255),JoystickLineThickness)
 
 	
