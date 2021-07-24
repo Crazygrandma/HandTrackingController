@@ -53,8 +53,8 @@ def getGestures(rightHand,leftHand,draw=True):
 		p1 = UISettings.p1
 		p2 = UISettings.p2
 
-		airrollValue = (wrist1[1]-p1[0])/UISettings.JoystickRadius
-		turningValue = (wrist2[1]-p2[0])/UISettings.JoystickRadius
+		rightJoystick = ((wrist1[1]-p1[0])/UISettings.JoystickRadius,(wrist1[2]-p1[1])/UISettings.JoystickRadius)
+		leftJoystick  = ((wrist2[1]-p2[0])/UISettings.JoystickRadius,(wrist2[2]-p2[1])/UISettings.JoystickRadius)
 
 		t1_i1_dist = math.sqrt(int(thumb1[1]-index1[1])**2+int(thumb1[2]-index1[2])**2)
 		t2_i2_dist = math.sqrt(int(thumb2[1]-index2[1])**2+int(thumb2[2]-index2[2])**2)
@@ -68,13 +68,13 @@ def getGestures(rightHand,leftHand,draw=True):
 		t1_p1_dist = math.sqrt(int(thumb1[1]-pinky1[1])**2+int(thumb1[2]-pinky1[2])**2)
 		t2_p2_dist = math.sqrt(int(thumb2[1]-pinky2[1])**2+int(thumb2[2]-pinky2[2])**2)
 
-		gestures = {'rightHand':{'airrollValue':airrollValue,
+		gestures = {'rightHand':{'rightJoystick':rightJoystick,
 								 'thumb_index':t1_i1_dist,
 								 'thumb_middle':t1_m1_dist,
 								 'thumb_ring':t1_r1_dist,
 								 'thumb_pinky':t1_p1_dist
 								 },
-					'leftHand':{'turningValue':turningValue,
+					'leftHand':{'leftJoystick':leftJoystick,
 								 'thumb_index':t2_i2_dist,
 								 'thumb_middle':t2_m2_dist,
 								 'thumb_ring':t2_r2_dist,

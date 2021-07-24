@@ -32,6 +32,8 @@ def main():
 			if counter == 30:
 				reload(HandController)
 				reload(controller)
+				counter = 0
+			#counter += 1
 			gestures = HandController.TrackHands(cap)
 			if gestures != None:
 				controller.sendInputs(gamepad,gestures)
