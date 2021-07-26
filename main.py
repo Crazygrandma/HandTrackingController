@@ -22,8 +22,7 @@ def main():
 
     cap = load_camera()
     while cap.isOpened():
-        # Uncomment the try and except block for easier debugging/developing
-        # Credit to jurstu98 for this brilliant idea :)
+
         gestures = HandController.track_hands(cap)
         if gestures is not None:
             controller.send_inputs(gamepad, gestures)
