@@ -25,4 +25,4 @@ the right hand can get detected as the left hand and vice versa
 2. Covering multiple fingers may result in falsely detected hand gestures
 
 An evenly lit room, an one-color background or a camera with a higher framerate should solve these issues.
-If not, please contact me through my youtube account
+If not, please contact me through [my youtube account](https://www.youtube.com/channel/UCX6mis1jc5RIFo-A2PpwKQg/featured):
